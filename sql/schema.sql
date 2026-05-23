@@ -1,12 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.0.4
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Generation Time: Jan 07, 2014 at 03:13 PM
--- Server version: 5.6.12-log
--- PHP Version: 5.4.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -14,31 +5,21 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `breweries`
 -- 
-
 CREATE TABLE IF NOT EXISTS `breweries` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` tinytext NOT NULL,
 	`imageUrl` varchar(2000),
 	`active` tinyint(1) NOT NULL DEFAULT 1,
-
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
-
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `beerStyles`
 --
-
 CREATE TABLE IF NOT EXISTS `beerStyles` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` tinytext NOT NULL,
@@ -62,14 +43,11 @@ CREATE TABLE IF NOT EXISTS `beerStyles` (
 	`active` tinyint(1) NOT NULL DEFAULT 1,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `beerStyles`
 --
-
 INSERT INTO `beerStyles`( name, catNum, category, beerStyleList, ogMin, ogMax, fgMin, fgMax, abvMin, abvMax, ibuMin, ibuMax, srmMin, srmMax, createdDate, modifiedDate ) VALUES
 -- BJCP pre 2015 styles
 ( 'Lite American Lager', '1A', 'Light Lager', 'BJCP pre 2015', '1.028', '1.04', '0.998', '1.008', '2.8', '4.2', '8', '12', '2', '3', NOW(), NOW() ),
@@ -470,15 +448,10 @@ INSERT INTO `beerStyles`( name, catNum, category, beerStyleList, ogMin, ogMax, f
 ( 'Ice Cider', 'C2D', 'Specialty Cider and Perry', 'BJCP 2015', '1.130', '1.180', '1.060', '1.085', '7', '13', '0', '0', '0', '0', NOW(), NOW() ),
 ( 'Cider with Herbs/Spices', 'C2E', 'Specialty Cider and Perry', 'BJCP 2015', '1.045', '1.070', '0.995', '1.010', '5', '9', '0', '0', '0', '0', NOW(), NOW() ),
 ( 'Specialty Cider/Perry', 'C2F', 'Specialty Cider and Perry', 'BJCP 2015', '1.045', '1.100', '0.995', '1.020', '5', '12', '0', '0', '0', '0', NOW(), NOW() );
-
-
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `beers`
 --
-
 CREATE TABLE IF NOT EXISTS `beers` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` text NOT NULL,
@@ -498,11 +471,12 @@ CREATE TABLE IF NOT EXISTS `beers` (
 	`active` tinyint(1) NULL DEFAULT 1,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-
-PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `beerBatches`
+--
 CREATE TABLE IF NOT EXISTS `beerBatches` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`beerId` int(11) NULL,
@@ -532,41 +506,45 @@ CREATE TABLE IF NOT EXISTS `beerBatches` (
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `beerBatchDateTypes`
+--
 CREATE TABLE IF NOT EXISTS `beerBatchDateTypes` (
-  `type` int(11) NOT NULL AUTO_INCREMENT,
-  `displayName` text NOT NULL,
-  `createdDate` timestamp NULL DEFAULT NULL,
-  `modifiedDate` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`type`)
+  	`type` int(11) NOT NULL AUTO_INCREMENT,
+  	`displayName` text NOT NULL,
+  	`createdDate` timestamp NULL DEFAULT NULL,
+  	`modifiedDate` timestamp NULL DEFAULT NULL,
+  	PRIMARY KEY (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
-
+--
+-- Dumping data for table `beerBatchDateTypes`
+--
 INSERT INTO beerBatchDateTypes VALUES('1','Brewed','2021-01-21 09:56:22','2021-01-21 09:56:22');
 INSERT INTO beerBatchDateTypes VALUES('2','Primary','2021-01-21 09:56:22','2021-01-21 09:56:22');
 INSERT INTO beerBatchDateTypes VALUES('3','Secondary','2021-01-21 09:56:22','2021-01-21 09:56:22');
 INSERT INTO beerBatchDateTypes VALUES('4','Kegged','2021-01-21 09:56:22','2021-01-21 09:56:22');
 INSERT INTO beerBatchDateTypes VALUES('5','Bottle','2021-01-21 09:56:22','2021-01-21 09:56:22');
 INSERT INTO beerBatchDateTypes VALUES('6','Gone','2021-01-21 09:56:22','2021-01-21 09:56:22');
-        
-CREATE TABLE IF NOT EXISTS `beerBatchDates` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `beerBatchId` int(11) DEFAULT NULL,
-  `type` int(11) NOT NULL,
-  `createdDate` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `beerBatchId` (`beerBatchId`),
-  KEY `type` (`type`),
-  CONSTRAINT `beerBatchDates_ibfk_1` FOREIGN KEY (`beerBatchId`) REFERENCES `beerBatches` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `beerBatchDates_ibfk_2` FOREIGN KEY (`type`) REFERENCES `beerBatchDateTypes` (`type`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 -- --------------------------------------------------------
-
+--
+-- Table structure for table `beerBatchDateTypes`
+--
+-- CREATE TABLE IF NOT EXISTS `beerBatchDates` (
+--   `id` int(11) NOT NULL AUTO_INCREMENT,
+--   `beerBatchId` int(11) DEFAULT NULL,
+--   `type` int(11) NOT NULL,
+--   `createdDate` timestamp NULL DEFAULT NULL,
+--   PRIMARY KEY (`id`),
+--   KEY `beerBatchId` (`beerBatchId`),
+--   KEY `type` (`type`),
+--   CONSTRAINT `beerBatchDates_ibfk_1` FOREIGN KEY (`beerBatchId`) REFERENCES `beerBatches` (`id`) ON DELETE CASCADE,
+--   CONSTRAINT `beerBatchDates_ibfk_2` FOREIGN KEY (`type`) REFERENCES `beerBatchDateTypes` (`type`) ON DELETE CASCADE
+-- ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+-- --------------------------------------------------------
 --
 -- Table structure for table `config`
 --
-
 CREATE TABLE IF NOT EXISTS `config` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`configName` varchar(50) NOT NULL,
@@ -576,15 +554,12 @@ CREATE TABLE IF NOT EXISTS `config` (
 	`validation` varchar(65) NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `configName_UNIQUE` (`configName`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `config`
 --
-
 INSERT INTO `config` ( configName, configValue, displayName, showOnPanel, createdDate, modifiedDate ) VALUES
 ( 'showTapNumCol', '1', 'Show Tap Column', '1', NOW(), NOW() ),
 ( 'showBeerImages', '0', 'Show Beer Images', '1', NOW(), NOW() ),
@@ -680,7 +655,6 @@ INSERT IGNORE INTO `config` ( configName, configValue, displayName, showOnPanel,
 ( 'relayTrigger', '0', 'Show list of pours on home screen', '0', 'High|Low', NOW(), NOW() ),
 ( 'hozTapListCol', '0', 'Number Of horizontal tap List Beer Column', '1', '2|1', NOW(), NOW() );
 
-
 INSERT INTO `config` (`configName`, `configValue`, `displayName`, `showOnPanel`, `createdDate`, `modifiedDate`) VALUES
 ( 'numberOfDisplayPours', '10', 'Pours to display at one time (0 dont show pours)', 0, NOW(), NOW() ),
 ( 'showPourTapNumCol', '1', 'Pours Show Tap Column', '1', NOW(), NOW() ),
@@ -714,11 +688,8 @@ INSERT INTO `config` (`configName`, `configValue`, `displayName`, `showOnPanel`,
 INSERT INTO `config` ( configName, configValue, displayName, showOnPanel, createdDate, modifiedDate ) VALUES
 ('numAccoladeDisplay', '3', 'Number of Accolades to display in a row/column', 0, NOW(), NOW() );
 
-
 INSERT INTO `config` ( configName, configValue, displayName, showOnPanel, createdDate, modifiedDate ) VALUES
-
 ( 'amountPerPint', '0', 'Amount per pint. > 0 then display pints remaining', '0', NOW(), NOW() );
-
 
 INSERT IGNORE INTO `config` ( configName, configValue, displayName, showOnPanel, validation, createdDate, modifiedDate ) VALUES
 ( 'RefreshTapList', '0', 'Refresh the tap list every 60 seconds', '1', NULL, NOW(), NOW() ),
@@ -736,11 +707,9 @@ INSERT IGNORE INTO `config` ( configName, configValue, displayName, showOnPanel,
 INSERT IGNORE INTO `config` (`configName`, `configValue`, `displayName`, `showOnPanel`, `validation`, `createdDate`, `modifiedDate`) VALUES
 ( 'maxPourAmount', '100', 'Maximum Amount allowed to be poured', '0', 'number:1-999', NOW(), NOW() );
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `kegTypes`
 --
-
 CREATE TABLE IF NOT EXISTS `kegTypes` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`displayName` text NOT NULL,
@@ -750,14 +719,11 @@ CREATE TABLE IF NOT EXISTS `kegTypes` (
 	`emptyWeightUnit` tinytext NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `kegTypes`
 --
-
 INSERT INTO `kegTypes` ( displayName, maxAmount, maxAmountUnit, emptyWeight, emptyWeightUnit, createdDate, modifiedDate ) VALUES
 ( 'Ball Lock (5 gal)', '5', 'gal', '8.1571', 'lb', NOW(), NOW() ),
 ( 'Ball Lock (2.5 gal)', '2.5', 'gal', '4.0786', 'lb', NOW(), NOW() ),
@@ -774,26 +740,20 @@ INSERT INTO `kegTypes` ( displayName, maxAmount, maxAmountUnit, emptyWeight, emp
 ( 'Cask (kilderkin)', '21.62', 'gal', '0', 'lb', NOW(), NOW() ),
 ( 'Cask (barrel)', '43.23', 'gal', '0', 'lb', NOW(), NOW() ),
 ( 'Cask (hogshead)', '64.85', 'gal', '0', 'lb', NOW(), NOW() );
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `kegStatuses`
 --
-
 CREATE TABLE IF NOT EXISTS `kegStatuses` (
 	`code` varchar(20) NOT NULL,
 	`name` text NOT NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`code`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `kegStatuses`
 --
-
 INSERT INTO `kegStatuses` ( code, name, createdDate, modifiedDate ) VALUES
 ( 'SERVING', 'Serving', NOW(), NOW() ),
 ( 'PRIMARY', 'Primary', NOW(), NOW() ),
@@ -807,13 +767,10 @@ INSERT INTO `kegStatuses` ( code, name, createdDate, modifiedDate ) VALUES
 ( 'NEEDS_CLEANING', 'Needs Cleaning', NOW(), NOW() ),
 ( 'NEEDS_PARTS', 'Needs Parts', NOW(), NOW() ),
 ( 'NEEDS_REPAIRS', 'Needs Repairs', NOW(), NOW() );
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `kegs`
 --
-
 CREATE TABLE IF NOT EXISTS `kegs` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`label` varchar(40) NOT NULL,
@@ -846,19 +803,15 @@ CREATE TABLE IF NOT EXISTS `kegs` (
     `hasContinuousLid` int(11) DEFAULT 0,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`kegStatusCode`) REFERENCES kegStatuses(`Code`) ON DELETE CASCADE,
 	FOREIGN KEY (`kegTypeId`) REFERENCES kegTypes(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `tapconfig`
 --
-
 CREATE TABLE IF NOT EXISTS `tapconfig` (
   `tapId` int(11) NOT NULL,
   `flowPin` int(11) DEFAULT NULL,
@@ -878,13 +831,10 @@ CREATE TABLE IF NOT EXISTS `tapconfig` (
   `plaatoAuthToken` tinytext NULL,
 	PRIMARY KEY (`tapId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `taps`
 --
-
 CREATE TABLE IF NOT EXISTS `taps` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`kegId` int(11) NULL,
@@ -893,16 +843,12 @@ CREATE TABLE IF NOT EXISTS `taps` (
 	`active` tinyint(1) NOT NULL DEFAULT 1,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `pours`
 --
-
 CREATE TABLE IF NOT EXISTS `pours` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`tapId` int(11) NOT NULL,
@@ -916,17 +862,13 @@ CREATE TABLE IF NOT EXISTS `pours` (
 	`userId` int(11) NOT NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (tapId) REFERENCES taps(id) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `fermentables`
 --
-
 CREATE TABLE IF NOT EXISTS `fermentables` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` tinytext NOT NULL,
@@ -935,27 +877,26 @@ CREATE TABLE IF NOT EXISTS `fermentables` (
 	`notes` text NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
+--
+-- Table structure for table `beerfermentables`
+--
 CREATE TABLE IF NOT EXISTS `beerFermentables` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`beerId` int(11) NOT NULL,
   `fermentablesId`int(11) NOT NULL,
 	`amount` tinytext NULL,
 	`time` tinytext NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`fermentablesId`) REFERENCES fermentables(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `hops`
 --
-
 CREATE TABLE IF NOT EXISTS `hops` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` tinytext NOT NULL,
@@ -964,26 +905,27 @@ CREATE TABLE IF NOT EXISTS `hops` (
 	`notes` text NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
+--
+-- Table structure for table `beerHops`
+--
 CREATE TABLE IF NOT EXISTS `beerHops` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`beerId` int(11) NOT NULL,
   `hopsId`  int(11) NOT NULL,
 	`amount` tinytext NULL,
 	`time` tinytext NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`hopsId`) REFERENCES hops(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
+-- --------------------------------------------------------
 --
 -- Table structure for table `yeasts`
 --
- 
-CREATE TABLE IF NOT EXISTS `yeasts` (
+ CREATE TABLE IF NOT EXISTS `yeasts` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` tinytext NOT NULL,
 	`strand` tinytext NULL,
@@ -998,22 +940,26 @@ CREATE TABLE IF NOT EXISTS `yeasts` (
 	`notes` text NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
+--
+-- Table structure for table `beerYeasts`
+--
 CREATE TABLE IF NOT EXISTS `beerYeasts` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`beerId` int(11) NOT NULL,
   `yeastsId`int(11) NOT NULL,
 	`amount` tinytext NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`yeastsId`) REFERENCES yeasts(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
-CREATE TABLE `beerBatchYeasts` (
+-- --------------------------------------------------------
+--
+-- Table structure for table `beerBatchYeasts`
+--
+CREATE TABLE IF NOT EXISTS `beerBatchYeasts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `beerBatchId` int(11) NOT NULL,
   `yeastsId` int(11) NOT NULL,
@@ -1024,15 +970,10 @@ CREATE TABLE `beerBatchYeasts` (
   CONSTRAINT `beerBatchYeasts_ibfk_1` FOREIGN KEY (`beerBatchId`) REFERENCES `beerBatches` (`id`) ON DELETE CASCADE,
   CONSTRAINT `beerBatchYeasts_ibfk_2` FOREIGN KEY (`yeastsId`) REFERENCES `yeasts` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Table structure for table `bottleTypes`
---
-
+-- --------------------------------------------------------
 --
 -- Table structure for table `Accolades`
 --
-
 CREATE TABLE IF NOT EXISTS `accolades` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` tinytext NOT NULL,
@@ -1046,22 +987,29 @@ CREATE TABLE IF NOT EXISTS `accolades` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
+--
+-- Table structure for table `beerAccolades`
+--
 CREATE TABLE IF NOT EXISTS `beerAccolades` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`beerId` int(11) NOT NULL,
     `accoladeId`int(11) NOT NULL,
 	`amount` tinytext NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`accoladeId`) REFERENCES accolades(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
+--
+-- Dumping data for table `bbeerAccolades`
+--
 INSERT INTO accolades (id, name, rank, type, srm, notes, createdDate, modifiedDate) VALUES('1','Gold',1,'Medal','3.0','','2020-08-04 14:13:55','2020-08-04 14:14:34');
 INSERT INTO accolades (id, name, rank, type, srm, notes, createdDate, modifiedDate) VALUES('2','Silver',2,'Medal','4.2','','2020-08-04 14:14:34','2020-08-04 14:14:34');
 INSERT INTO accolades (id, name, rank, type, srm, notes, createdDate, modifiedDate) VALUES('3','Bronze',3,'Medal','9.6','','2020-08-04 14:14:34','2020-08-04 14:14:34');
 INSERT INTO accolades (id, name, rank, type, srm, notes, createdDate, modifiedDate) VALUES('4','BOS',4,'Medal','9.6','','2020-08-04 14:14:34','2020-08-04 14:14:34');
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `bottleTypes`
+--
 CREATE TABLE IF NOT EXISTS `bottleTypes` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`displayName` text NOT NULL,
@@ -1071,18 +1019,18 @@ CREATE TABLE IF NOT EXISTS `bottleTypes` (
 	`used` int(11) NOT NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `bottleTypes`
 --
-
 INSERT INTO `bottleTypes` ( displayName, volume, total, used, createdDate, modifiedDate ) VALUES
 ( 'standard (12oz)', '12.0', '40', '0', NOW(), NOW() ),
 ( 'flip top (16oz)', '16.0', '5', '0', NOW(), NOW() );
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `containerTypes`
+--
 CREATE TABLE IF NOT EXISTS `containerTypes` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`displayName` text NOT NULL,
@@ -1092,15 +1040,11 @@ CREATE TABLE IF NOT EXISTS `containerTypes` (
 	`used` int(11) NOT NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
-
 --
--- Dumping data for table `bottleTypes`
+-- Dumping data for table `containerTypes`
 --
-
 INSERT INTO `containerTypes` ( id, displayName, volume, total, used, createdDate, modifiedDate ) VALUES
 ( 1,'standardpint', '16.0', '0', '0', NOW(), NOW() ),
 ( 2,'chalice', '16.0', '0', '0', NOW(), NOW() ),
@@ -1115,13 +1059,13 @@ INSERT INTO `containerTypes` ( id, displayName, volume, total, used, createdDate
 ( 11,'weizenglass', '16.0', '0', '0', NOW(), NOW() ),
 ( 12,'willibecher', '16.0', '0', '0', NOW(), NOW() ),
 ( 13,'wineglass', '16.0', '0', '0', NOW(), NOW() ),
-
 ( 14,'flute', '16.0', '0', '0', NOW(), NOW() ),
-
 ( 15,'teku', '16.0', '0', '0', NOW(), NOW() ),
-
 ( 16,'thistle', '16.0', '0', '0', NOW(), NOW() );
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `rfidReaders`
+--
 CREATE TABLE IF NOT EXISTS `rfidReaders` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NULL,
@@ -1130,10 +1074,12 @@ CREATE TABLE IF NOT EXISTS `rfidReaders` (
 	`priority` int(11) NULL DEFAULT 0,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `motionDetectors`
+--
 CREATE TABLE IF NOT EXISTS `motionDetectors` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
   `name` text NULL,
@@ -1151,34 +1097,32 @@ CREATE TABLE IF NOT EXISTS `motionDetectors` (
 	`mqttInterval` int(11) NOT NULL DEFAULT 100,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `tapEvents`
+--
 CREATE TABLE IF NOT EXISTS `tapEvents` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
-  `type` int(11) NOT NULL,
-  `tapId` int(11) NOT NULL,
-  `kegId` int(11) NOT NULL,
-  `beerId` int(11) NOT NULL,
-  `beerBatchId` int(11) NULL,
-  `amount` decimal(7,5) DEFAULT NULL,
-  `amountUnit` tinytext NULL,
-  `beerBatchAmount` decimal(7,5) DEFAULT NULL,
-  `beerBatchAmountUnit` tinytext NULL,
-  `userId` int(11) NOT NULL,
+  	`type` int(11) NOT NULL,
+  	`tapId` int(11) NOT NULL,
+  	`kegId` int(11) NOT NULL,
+  	`beerId` int(11) NOT NULL,
+  	`beerBatchId` int(11) NULL,
+  	`amount` decimal(7,5) DEFAULT NULL,
+  	`amountUnit` tinytext NULL,
+  	`beerBatchAmount` decimal(7,5) DEFAULT NULL,
+  	`beerBatchAmountUnit` tinytext NULL,
+  	`userId` int(11) NOT NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
-
 --
 -- Table structure for table `bottles`
 --
-
 CREATE TABLE IF NOT EXISTS `bottles` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`bottleTypeId` int(11) NOT NULL,
@@ -1191,18 +1135,14 @@ CREATE TABLE IF NOT EXISTS `bottles` (
 	`active` tinyint(1) NULL DEFAULT 1,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`bottleTypeId`) REFERENCES bottleTypes(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
-
 --
--- Table structure for table `Users`
+-- Table structure for table `users`
 --
-
 CREATE TABLE IF NOT EXISTS`users` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`username` varchar(65) CHARACTER SET utf8 NOT NULL,
@@ -1216,34 +1156,35 @@ CREATE TABLE IF NOT EXISTS`users` (
 	`isAdmin` tinyint(1) NOT NULL DEFAULT 0,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+-- --------------------------------------------------------
 --
--- Table structure for table `Users`
+-- Table structure for table `userRfids`
 --
-
 CREATE TABLE IF NOT EXISTS `userRfids` (
 	`userId` int(11) NOT NULL,
 	`RFID` varchar(128) CHARACTER SET utf8 NOT NULL,
 	`description` varchar(65) CHARACTER SET utf8 NULL,
 	PRIMARY KEY (`userId`, `RFID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `srmRgb`
+--
 CREATE TABLE IF NOT EXISTS `srmRgb` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`srm` decimal(7,1) NOT NULL,
 	`rgb` varchar(12) NOT NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `srm_UNIQUE` (`srm`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+--
 -- Data for table `srmRgb`
+--
 INSERT INTO srmRgb ( srm, rgb, createdDate, modifiedDate ) VALUES
 ( '0.0','252,252,243', NOW(), NOW() ),
 ( '0.1','248,248,230', NOW(), NOW() ),
@@ -1646,16 +1587,17 @@ INSERT INTO srmRgb ( srm, rgb, createdDate, modifiedDate ) VALUES
 ( '39.8','3,4,3', NOW(), NOW() ),
 ( '39.9','3,4,3', NOW(), NOW() ),
 ( '40.0','3,4,3', NOW(), NOW() );
-
 -- --------------------------------------------------------
-
+--
+-- Table structure for table `ioPins`
+--
 CREATE TABLE IF NOT EXISTS `ioPins` (
 	`shield` varchar(30) NOT NULL,
-  `pin` int(11) NOT NULL,
-  `displayPin` text DEFAULT NULL,
+  	`pin` int(11) NOT NULL,
+  	`displayPin` text DEFAULT NULL,
 	`name` tinytext NULL,
-  `col` int(11) DEFAULT NULL,
-  `row` int(11) DEFAULT NULL,
+  	`col` int(11) DEFAULT NULL,
+  	`row` int(11) DEFAULT NULL,
 	`rgb` varchar(12) NULL,
 	`notes` text NULL,
 	`pinSide` tinytext NULL,
@@ -1663,168 +1605,92 @@ CREATE TABLE IF NOT EXISTS `ioPins` (
 	`modifiedDate` TIMESTAMP NULL,	
 	PRIMARY KEY (`shield`, `pin`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
+--
+-- Data for table `ioPins`
+--
 INSERT INTO ioPins ( shield, pin, name, col, `row`, rgb, pinSide, notes, createdDate, modifiedDate ) VALUES
-
 ('Pi', 1, 'PWR/3.3V', 1, 1, '255,200,126', 'right', '', NOW(), NOW()),
-
 ('Pi', 2, 'PWR/5v', 2, 1, '255,200,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 3, 'SDA.1/2', 1, 2, '255,200,255', 'right', '', NOW(), NOW()),
-
 ('Pi', 4, 'PWR/5v', 2, 2, '255,200,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 5, 'SCL.1/3', 1, 3, '255,200,255', 'right', '', NOW(), NOW()),
-
 ('Pi', 6, 'GND/0v', 2, 3, '126,126,126', 'left', '', NOW(), NOW()),
-
 ('Pi', 7, 'GPIO.7/4', 1, 4, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 8, 'TxD/14', 2, 4, '200,255,255', 'left', '', NOW(), NOW()),
-
 ('Pi', 9, 'GND/0v', 1, 5, '126,126,126', 'right', '', NOW(), NOW()),
-
 ('Pi', 10, 'RxD/15', 2, 5, '200,255,255', 'left', '', NOW(), NOW()),
-
 ('Pi', 11, 'GPIO.0/17', 1, 6, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 12, 'GPIO.1/18', 2, 6, '226,255,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 13, 'GPIO.2/27', 1, 7, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 14, 'GND/0v', 2, 7, '126,126,126', 'left', '', NOW(), NOW()),
-
 ('Pi', 15, 'GPIO.3/22', 1, 8, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 16, 'GPIO.4/23', 2, 8, '226,255,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 17, 'PWR/3.3v', 1, 9, '255,200,126', 'right', '', NOW(), NOW()),
-
 ('Pi', 18, 'GPIO.5/24', 2, 9, '226,255,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 19, 'MOSI/10', 1, 10, '200,255,255', 'right', '', NOW(), NOW()),
-
 ('Pi', 20, 'GND/0v', 2, 10, '126,126,126', 'left', '', NOW(), NOW()),
-
 ('Pi', 21, 'MISO/9', 1, 11, '200,255,255', 'right', '', NOW(), NOW()),
-
 ('Pi', 22, 'GPIO.6/25', 2, 11, '226,255,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 23, 'SCLK/11', 1, 12, '200,255,255', 'right', '', NOW(), NOW()),
-
 ('Pi', 24, 'CE0/8', 2, 12, '200,255,255', 'left', '', NOW(), NOW()),
-
 ('Pi', 25, 'GND/0v', 1, 13, '126,126,126', 'right', '', NOW(), NOW()),
-
 ('Pi', 26, 'CE1/7', 2, 13, '200,255,255', 'left', '', NOW(), NOW()),
-
 ('Pi', 27, 'SDA.0/0', 1, 14, '255,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 28, 'SCL.0/1', 2, 14, '255,255,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 29, 'GPIO.21/5', 1, 15, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 30, 'GND/0v', 2, 15, '126,126,126', 'left', '', NOW(), NOW()),
-
 ('Pi', 31, 'GPIO.22/6', 1, 16, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 32, 'GPIO.26/12', 2, 16, '226,255,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 33, 'GPIO.23/13', 1, 17, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 34, 'GND/0v', 2, 17, '126,126,126', 'left', '', NOW(), NOW()),
-
 ('Pi', 35, 'GPIO.24/19', 1, 18, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 36, 'GPIO.27/16', 2, 18, '226,255,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 37, 'GPIO.25/26', 1, 19, '226,255,200', 'right', '', NOW(), NOW()),
-
 ('Pi', 38, 'GPIO.28/20', 2, 19, '226,255,200', 'left', '', NOW(), NOW()),
-
 ('Pi', 39, 'GND/0v', 1, 20, '126,126,126', 'right', '', NOW(), NOW()),
-
 ('Pi', 40, 'GPIO.29/21', 2, 20, '226,255,200', 'left', '', NOW(), NOW()),
-
 ('Alamode', 0, 'RxD', 2, 17, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 1, 'TxD', 2, 16, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 2, '1pps', 2, 15, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 3, 'SQW', 2, 14, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 4, 'GPS_Rx', 2, 13, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 5, 'Pin5', 2, 12, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 6, 'GTP_Tx', 2, 11, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 7, 'Pin7', 2, 10, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 8, 'Pin8', 2, 9, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 9, 'Pin9', 2, 8, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 10, 'SS', 2, 7, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 11, 'MOSI', 2, 6, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 12, 'MISO', 2, 5, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 13, 'SCK/LED', 2, 4, '', 'left', 'Triggering LED will interfere with SPI', NOW(),NOW()),
-
 ('Alamode', 14, 'GND/0v', 2, 3, '126,126,126', 'left', '', NOW(), NOW()),
-
 ('Alamode', 15, 'AREF', 2, 2, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 16, 'AD4/SDA', 2, 1, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 17, 'AD5/SCL', 2, 0, '', 'left', '', NOW(), NOW()),
-
 ('Alamode', 18, 'AD5/SCL', 1, 12, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 19, 'AD4/SDA', 1, 11, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 20, 'AD3/PC3', 1, 10, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 21, 'AD2/PC2', 1, 9, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 22, 'AD1/PC1', 1, 8, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 23, 'AD0/PC0', 1, 7, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 24, 'V in', 1, 6, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 25, 'GND2', 1, 5, '126,126,126', 'right', '', NOW(), NOW()),
-
 ('Alamode', 26, 'GND1', 1, 4, '126,126,126', 'right', '', NOW(), NOW()),
-
 ('Alamode', 27, 'PWR/5v', 1, 3, '255,200,200', 'right', '', NOW(), NOW()),
-
 ('Alamode', 28, 'PWR/3.3V', 1, 2, '255,200,126', 'right', '', NOW(), NOW()),
-
 ('Alamode', 29, 'RST', 1, 1, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 30, 'PWR/5v', 1, 0, '', 'right', '', NOW(), NOW()),
-
 ('Alamode', 31, '', 1, 13, '', '', '', NOW(), NOW()),
-
 ('Alamode', 32, '', 1, 14, '', '', '', NOW(), NOW()),
-
 ('Alamode', 33, '', 1, 15, '', '', '', NOW(), NOW()),
-
 ('Alamode', 34, '', 1, 16, '', '', '', NOW(), NOW()),
-
 ('Alamode', 35, '', 1, 17, '', '', '', NOW(), NOW());
 
 UPDATE ioPins SET displayPin=pin;
-
-
-
-
-
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `tempProbes`
+--
 CREATE TABLE IF NOT EXISTS `tempProbes` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`name` tinytext NOT NULL,
@@ -1838,7 +1704,10 @@ CREATE TABLE IF NOT EXISTS `tempProbes` (
 	`modifiedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `tempLog`
+--
 CREATE TABLE IF NOT EXISTS `tempLog` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
     `probe` text NULL,
@@ -1849,8 +1718,10 @@ CREATE TABLE IF NOT EXISTS `tempLog` (
 	`takenDate` TIMESTAMP NOT NULL,	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
-
+-- --------------------------------------------------------
+--
+-- Table structure for table `log`
+--
 CREATE TABLE IF NOT EXISTS `log` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`process` tinytext NOT NULL,
@@ -1862,18 +1733,14 @@ CREATE TABLE IF NOT EXISTS `log` (
 	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
-
+-- --------------------------------------------------------
 --
 -- Create View `vwGetActiveTaps`
 --
-
-CREATE OR REPLACE VIEW vwGetActiveTaps
+CREATE OR REPLACE VIEW `vwGetActiveTaps`
 AS
-
 SELECT
 	t.id,
-
 	b.id as 'beerId',
 	bb.id as 'beerBatchId',
 	b.name,
@@ -1918,19 +1785,14 @@ FROM taps t
 WHERE t.active = true
 GROUP BY t.id
 ORDER BY t.id;
-
 -- --------------------------------------------------------
-
 --
 -- Create View `vwGetFilledBottles`
 --
-
-CREATE OR REPLACE VIEW vwGetFilledBottles
+CREATE OR REPLACE VIEW `vwGetFilledBottles`
 AS
-
 SELECT
 	t.id,
-
 	b.id as 'beerId',
 	bb.id as 'beerBatchId',
 	b.name,
@@ -1974,10 +1836,13 @@ FROM bottles t
 WHERE t.active = true
 GROUP BY t.id
 ORDER BY t.id;
-
+-- --------------------------------------------------------
+--
+-- Create View `vwTaps`
+--
 CREATE OR REPLACE VIEW `vwTaps` 
 AS
- SELECT 
+SELECT 
 	t.*, 
 	tc.*, 
 	k.beerId, 
@@ -1985,10 +1850,13 @@ AS
  FROM taps t 
  LEFT JOIN tapconfig tc ON (t.id = tc.tapId) 
  LEFT JOIN kegs k ON (t.kegId = k.id);
- 
+-- --------------------------------------------------------
+--
+-- Create View `vwKegs`
+--
 CREATE OR REPLACE VIEW `vwKegs` 
 AS
- SELECT 
+SELECT 
     k.id,
     k.label,
     k.kegTypeId,
@@ -2025,53 +1893,62 @@ AS
         ON k.kegTypeId = kt.id
       LEFT JOIN taps t 
         ON k.onTapId = t.id;
-
+-- --------------------------------------------------------
+--
+-- Create View `vwGetFermentables`
+--
 CREATE OR REPLACE VIEW `vwFermentables` 
 AS
- SELECT 
+SELECT 
     f.*,
     srm.rgb
  FROM fermentables f LEFT JOIN srmRgb srm
         ON f.srm = srm.srm;
-        
-CREATE OR REPLACE VIEW vwTapEvents
+-- --------------------------------------------------------
+--
+-- Create View `vwTapEvents`
+--
+CREATE OR REPLACE VIEW `vwTapEvents`
 AS
 SELECT
-  te.id,
-  te.type as type,
-  CASE te.type 
-    WHEN 1 THEN 'Tapped'
-    WHEN 2 THEN 'Removed'
+  	te.id,
+  	te.type as type,
+  	CASE te.type 
+    	WHEN 1 THEN 'Tapped'
+    	WHEN 2 THEN 'Removed'
     ELSE 'N/A'
-  END as 'typeDesc',
-  te.tapId,
-  te.kegId,
-  te.beerId,
-  te.beerBatchId,
-  te.amount,
-  te.amountUnit,
-  te.beerBatchAmount,
-  te.beerBatchAmountUnit,
-  CASE WHEN te.type = 2 THEN (SELECT amount FROM tapEvents WHERE id = (SELECT MAX(id) FROM tapEvents WHERE id < te.id AND type = 1 AND tapId = te.tapId AND kegId = te.kegId AND beerId = te.beerId)) ELSE NULL END AS newAmount,
-  CASE WHEN te.type = 2 THEN (SELECT amountUnit FROM tapEvents WHERE id = (SELECT MAX(id) FROM tapEvents WHERE id < te.id AND type = 1 AND tapId = te.tapId AND kegId = te.kegId AND beerId = te.beerId)) ELSE NULL END AS newAmountUnit,
-  te.userId,
+  	END as 'typeDesc',
+  	te.tapId,
+  	te.kegId,
+  	te.beerId,
+  	te.beerBatchId,
+  	te.amount,
+  	te.amountUnit,
+  	te.beerBatchAmount,
+  	te.beerBatchAmountUnit,
+  	CASE WHEN te.type = 2 THEN (SELECT amount FROM tapEvents WHERE id = (SELECT MAX(id) FROM tapEvents WHERE id < te.id AND type = 1 AND tapId = te.tapId AND kegId = te.kegId AND beerId = te.beerId)) ELSE NULL END AS newAmount,
+  	CASE WHEN te.type = 2 THEN (SELECT amountUnit FROM tapEvents WHERE id = (SELECT MAX(id) FROM tapEvents WHERE id < te.id AND type = 1 AND tapId = te.tapId AND kegId = te.kegId AND beerId = te.beerId)) ELSE NULL END AS newAmountUnit,
+  	te.userId,
 	t.tapNumber as 'tapNumber',
-  t.tapRgba   as 'tapRgba',
-  k.label as 'kegName',
+  	t.tapRgba   as 'tapRgba',
+  	k.label as 'kegName',
 	b.name  as 'beerName',
 	bs.name as 'beerStyle',
 	CASE WHEN u.username IS NULL THEN 'System' ELSE u.userName END  as 'userName',
-  te.createdDate
+  	te.createdDate
 FROM tapEvents te
-  LEFT JOIN taps t ON t.id = te.tapId
+  	LEFT JOIN taps t ON t.id = te.tapId
 	LEFT JOIN kegs k ON k.id = te.kegId
 	LEFT JOIN beers b ON b.id = te.beerId
 	LEFT JOIN beerStyles bs ON bs.id = b.beerStyleId
 	LEFT JOIN users u ON u.id = te.userId
 WHERE t.active = true
 ORDER BY te.id;
-  
-CREATE OR REPLACE VIEW vwTempLog
+-- --------------------------------------------------------
+--
+-- Create View `vwTempLog`
+--
+CREATE OR REPLACE VIEW `vwTempLog`
 AS
 SELECT
     tl.id,
@@ -2084,8 +1961,9 @@ SELECT
 FROM tempLog tl 
 LEFT JOIN tempProbes tp ON tl.probe = tp.name;
 -- --------------------------------------------------------
-
-
+--
+-- Create View `vwAccolades`
+--
 CREATE OR REPLACE VIEW `vwAccolades` 
 AS
  SELECT 
@@ -2093,7 +1971,10 @@ AS
     srm.rgb
  FROM accolades a LEFT JOIN srmRgb srm
         ON a.srm = srm.srm;
-        
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `iSpindel_Data`
+--
 CREATE TABLE IF NOT EXISTS `iSpindel_Data` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`createdDate` TIMESTAMP NOT NULL,
@@ -2116,7 +1997,10 @@ CREATE TABLE IF NOT EXISTS `iSpindel_Data` (
 	) 
 ENGINE=InnoDB DEFAULT CHARSET=ascii 
 COLLATE=ascii_bin COMMENT='iSpindel Data';
-
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `iSpindel_Device`
+--
 CREATE TABLE IF NOT EXISTS `iSpindel_Device` (
 	`iSpindelId` int NOT NULL,
 	`name` varchar(64) NULL,
@@ -2170,9 +2054,10 @@ CREATE TABLE IF NOT EXISTS `iSpindel_Device` (
 	PRIMARY KEY (`iSpindelId`),
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin COMMENT='iSpindel Devices Data';
-
-
-
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `iSpindel_Connector`
+--
 CREATE TABLE IF NOT EXISTS `iSpindel_Connector` (
 	`id` int NOT NULL AUTO_INCREMENT,
     `address` varchar(256) NULL,
@@ -2182,7 +2067,10 @@ CREATE TABLE IF NOT EXISTS `iSpindel_Connector` (
 	`modifiedDate` TIMESTAMP NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_bin COMMENT='iSpindel Connectors Data';
-
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `fermenterTypes`
+--
 CREATE TABLE IF NOT EXISTS `fermenterTypes` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`displayName` text NOT NULL,
@@ -2192,14 +2080,11 @@ CREATE TABLE IF NOT EXISTS `fermenterTypes` (
 	`emptyWeightUnit` tinytext NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `fermenterTypes`
 --
-
 INSERT INTO `fermenterTypes` ( displayName, maxAmount, maxAmountUnit, emptyWeight, emptyWeightUnit, createdDate, modifiedDate ) VALUES
 ( 'Conical (5 gal)', '5', 'gal', '8.1571', 'lb', NOW(), NOW() ),
 ( 'Conical (10 gal)', '10', 'gal', '16.3142', 'lb', NOW(), NOW() ),
@@ -2208,26 +2093,20 @@ INSERT INTO `fermenterTypes` ( displayName, maxAmount, maxAmountUnit, emptyWeigh
 ( 'Carboy (5 gal)', '5', 'gal', '8.1571', 'lb', NOW(), NOW() ),
 ( 'Carboy (6 gal)', '6', 'gal', '8.1571', 'lb', NOW(), NOW() ),
 ( 'Barrel (30 gal)', '30', 'gal', '8.1571', 'lb', NOW(), NOW() );
-
 -- --------------------------------------------------------
-
 --
--- Table structure for table `fermenterStatuses`
+-- Create Table structure for table `fermenterStatuses`
 --
-
 CREATE TABLE IF NOT EXISTS `fermenterStatuses` (
 	`code` varchar(20) NOT NULL,
 	`name` text NOT NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`code`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
--- Dumping data for table `kegStatuses`
+-- Dumping data for table `fermenterStatuses`
 --
-
 INSERT INTO `fermenterStatuses` ( code, name, createdDate, modifiedDate ) VALUES
 ( 'PRIMARY', 'Primary', NOW(), NOW() ),
 ( 'SECONDARY', 'Secondary', NOW(), NOW() ),
@@ -2240,8 +2119,10 @@ INSERT INTO `fermenterStatuses` ( code, name, createdDate, modifiedDate ) VALUES
 ( 'NEEDS_CLEANING', 'Needs Cleaning', NOW(), NOW() ),
 ( 'NEEDS_PARTS', 'Needs Parts', NOW(), NOW() ),
 ( 'NEEDS_REPAIRS', 'Needs Repairs', NOW(), NOW() );
-
-
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `fermenters`
+--
 CREATE TABLE IF NOT EXISTS `fermenters` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`label` varchar(40) NOT NULL,
@@ -2269,13 +2150,15 @@ CREATE TABLE IF NOT EXISTS `fermenters` (
 	`startDate` TIMESTAMP NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`fermenterStatusCode`) REFERENCES fermenterStatuses(`Code`) ON DELETE CASCADE,
 	FOREIGN KEY (`fermenterTypeId`) REFERENCES fermenterTypes(`id`) ON DELETE CASCADE,
 	FOREIGN KEY (`beerId`) REFERENCES beers(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `gasTankTypes`
+--
 CREATE TABLE IF NOT EXISTS `gasTankTypes` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`displayName` text NOT NULL,
@@ -2285,14 +2168,11 @@ CREATE TABLE IF NOT EXISTS `gasTankTypes` (
 	`emptyWeightUnit` tinytext NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
--- Dumping data for table `kegTypes`
+-- Dumping data for table `gasTankTypes`
 --
-
 INSERT INTO `gasTankTypes` ( displayName, maxAmount, maxAmountUnit, emptyWeight, emptyWeightUnit, createdDate, modifiedDate ) VALUES
 ( 'CO2 (5 lb)', '5', 'lb', '8.1571', 'lb', NOW(), NOW() ),
 ( 'CO2 (10 lb)', '10', 'lb', '16.3142', 'lb', NOW(), NOW() ),
@@ -2300,26 +2180,20 @@ INSERT INTO `gasTankTypes` ( displayName, maxAmount, maxAmountUnit, emptyWeight,
 ( 'Nitro (5 lb)', '5', 'lb', '8.1571', 'lb', NOW(), NOW() ),
 ( 'Nitro (10 lb)', '10', 'lb', '16.3142', 'lb', NOW(), NOW() ),
 ( 'Nitro (20 lb)', '20', 'lb', '16.3142', 'lb', NOW(), NOW() );
-
 -- --------------------------------------------------------
-
 --
--- Table structure for table `kegStatuses`
+-- Create Table structure for table `gasTankStatuses`
 --
-
 CREATE TABLE IF NOT EXISTS `gasTankStatuses` (
 	`code` varchar(20) NOT NULL,
 	`name` text NOT NULL,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`code`)
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
-
 --
--- Dumping data for table `kegStatuses`
+-- Dumping data for table `gasTankStatuses`
 --
-
 INSERT INTO `gasTankStatuses` ( code, name, createdDate, modifiedDate ) VALUES
 ( 'DISPENSING', 'Dispensing', NOW(), NOW() ),
 ( 'FULL', 'Full', NOW(), NOW() ),
@@ -2328,8 +2202,10 @@ INSERT INTO `gasTankStatuses` ( code, name, createdDate, modifiedDate ) VALUES
 ( 'NEEDS_CERTIFICATION', 'Needs Certification', NOW(), NOW() ),
 ( 'NEEDS_PARTS', 'Needs Parts', NOW(), NOW() ),
 ( 'NEEDS_REPAIRS', 'Needs Repairs', NOW(), NOW() );
-
-
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `gasTanks`
+--
 CREATE TABLE IF NOT EXISTS `gasTanks` (
 	`id` int(11) NOT NULL AUTO_INCREMENT,
 	`label` varchar(40) NOT NULL,
@@ -2351,25 +2227,26 @@ CREATE TABLE IF NOT EXISTS `gasTanks` (
 	`startAmountUnit` tinytext NULL,
 	`currentAmount` decimal(10,5) NULL,
 	`currentAmountUnit` tinytext NULL,
-        `loadCellCmdPin` int(11) DEFAULT NULL,
-        `loadCellRspPin` int(11) DEFAULT NULL,
-        `loadCellTareReq` int(11) DEFAULT NULL,
-        `loadCellScaleRatio` float DEFAULT NULL,
-        `loadCellTareOffset` float DEFAULT NULL,
-        `loadCellUnit` tinytext DEFAULT NULL,
-        `loadCellTareDate` TIMESTAMP NULL,
-        `loadCellUpdateVariance` decimal(10,5) NULL,
+    `loadCellCmdPin` int(11) DEFAULT NULL,
+    `loadCellRspPin` int(11) DEFAULT NULL,
+    `loadCellTareReq` int(11) DEFAULT NULL,
+    `loadCellScaleRatio` float DEFAULT NULL,
+    `loadCellTareOffset` float DEFAULT NULL,
+    `loadCellUnit` tinytext DEFAULT NULL,
+    `loadCellTareDate` TIMESTAMP NULL,
+    `loadCellUpdateVariance` decimal(10,5) NULL,
 	`active` tinyint(1) NOT NULL DEFAULT 1,
 	`createdDate` TIMESTAMP NULL,
 	`modifiedDate` TIMESTAMP NULL,
-	
 	PRIMARY KEY (`id`),
 	FOREIGN KEY (`gasTankStatusCode`) REFERENCES gasTankStatuses(`Code`) ON DELETE CASCADE,
 	FOREIGN KEY (`gasTankTypeId`) REFERENCES gasTankTypes(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB	DEFAULT CHARSET=latin1;
- 
-
-CREATE OR REPLACE VIEW vwGasTanks 
+-- --------------------------------------------------------
+--
+-- Create View `vwGasTanks`
+--
+CREATE OR REPLACE VIEW `vwGasTanks`
 AS
 select 
 	g.id AS id,
@@ -2393,21 +2270,23 @@ select
 	g.startAmountUnit AS startAmountUnit,
 	g.currentAmount AS currentAmount,
 	g.currentAmountUnit AS currentAmountUnit,
-        g.loadCellCmdPin AS loadCellCmdPin,
-        g.loadCellRspPin AS loadCellRspPin,
-        g.loadCellTareReq AS loadCellTareReq,
-        g.loadCellScaleRatio AS loadCellScaleRatio,
-        g.loadCellTareOffset AS loadCellTareOffset,
-        g.loadCellUnit AS loadCellUnit,
-        g.loadCellTareDate AS loadCellTareDate,
-        g.loadCellUpdateVariance AS loadCellUpdateVariance,
+    g.loadCellCmdPin AS loadCellCmdPin,
+    g.loadCellRspPin AS loadCellRspPin,
+    g.loadCellTareReq AS loadCellTareReq,
+    g.loadCellScaleRatio AS loadCellScaleRatio,
+    g.loadCellTareOffset AS loadCellTareOffset,
+    g.loadCellUnit AS loadCellUnit,
+    g.loadCellTareDate AS loadCellTareDate,
+    g.loadCellUpdateVariance AS loadCellUpdateVariance,
 	g.modifiedDate AS modifiedDate,
 	g.createdDate AS createdDate 
 from (gasTanks g 
 		left join gasTankTypes gt on((g.GasTankTypeId = gt.id)));
-
-
-CREATE OR REPLACE VIEW vwbeerBatches 
+-- --------------------------------------------------------
+--
+-- Create View `vwbeerBatches`
+--
+CREATE OR REPLACE VIEW `vwbeerBatches`
 AS 
 select 
 	bb.id AS id,
@@ -2436,12 +2315,14 @@ select
 	bb.createdDate AS createdDate,
 	bb.modifiedDate AS modifiedDate,
 	b.name AS beerName 
-from (beerBatches bb left join beers b on((b.id = bb.beerId)));
-
-
-CREATE OR REPLACE VIEW vwiSpindel_Device 
+FROM (beerBatches bb left join beers b on((b.id = bb.beerId)));
+-- --------------------------------------------------------
+--
+-- Create View `vwiSpindel_Device`
+--
+CREATE OR REPLACE VIEW `vwiSpindel_Device`
 AS 
-select 
+SELECT
 	idev.iSpindelId AS iSpindelId,
 	idev.active AS active,
 	idev.beerId AS beerId,
@@ -2495,15 +2376,17 @@ select
 	max(idat.temperatureUnit) AS currentTemperatureUnit,
 	min(idat.gravity) AS currentGravity,
 	min(idat.gravityUnit) AS currentGravityUnit
-from (iSpindel_Device idev 
-		left join iSpindel_Data idat on((idev.iSpindelId = idat.iSpindelId))) 
-		where (isnull(idat.iSpindelId) 
+FROM (iSpindel_Device idev 
+		LEFT JOIN iSpindel_Data idat on((idev.iSpindelId = idat.iSpindelId))) 
+		WHERE (isnull(idat.iSpindelId) 
 		or (idat.createdDate = (select max(idat2.createdDate) from iSpindel_Data idat2 where (idat2.iSpindelId = idat.iSpindelId)))) group by idev.iSpindelId;
-
-                
-CREATE OR REPLACE VIEW vwFermenters 
+-- --------------------------------------------------------
+--
+-- Create View `vwFermenters`
+--
+CREATE OR REPLACE VIEW `vwFermenters` 
 AS 
-select  
+SELECT
     f.id AS id,
     f.label AS label,
     f.fermenterTypeId AS fermenterTypeId,
@@ -2533,14 +2416,16 @@ select
     f.startDate AS startDate,
     f.modifiedDate AS modifiedDate,
     f.createdDate AS createdDate 
-    from (fermenters f 
-            left join fermenterTypes ft 
-            on((f.fermenterTypeId = ft.id)))
+FROM (fermenters f 
+        left join fermenterTypes ft 
+        on((f.fermenterTypeId = ft.id)))
 	LEFT JOIN beers b ON b.id = f.beerId
 	LEFT JOIN beerBatches bb ON bb.id = f.beerBatchId
 	LEFT JOIN srmRgb s ON (bb.srm IS NULL AND s.srm = b.srm) OR (bb.srm IS NOT NULL AND s.srm = bb.srm);
-       
-        
+-- --------------------------------------------------------
+--
+-- Create View `vwPours`
+--
 CREATE OR REPLACE VIEW `vwPours`
 AS
 SELECT 
@@ -2558,8 +2443,11 @@ FROM pours p
 	LEFT JOIN breweries br ON (b.breweryId = br.id) 
 	LEFT JOIN users u ON (p.userId = u.id)
 	LEFT JOIN beerStyles bs ON bs.id = b.beerStyleId;
-  
-CREATE OR REPLACE VIEW vwIoHardwarePins
+-- --------------------------------------------------------
+--
+-- Create View `vwIoHardwarePins`
+--
+CREATE OR REPLACE VIEW `vwIoHardwarePins`
 AS
   (SELECT CASE WHEN tc.flowPin  < 0 THEN 'Pi' ELSE '' END AS shield, CONCAT('Tap ', t.tapNumber, ' Flow Meter') AS Hardware, ABS(tc.flowPin) AS pin FROM tapconfig tc LEFT JOIN taps t ON (tc.tapId = t.id))
   UNION
@@ -2582,25 +2470,114 @@ AS
   (SELECT 'Pi' AS shield, CONCAT('Gas Tank ', COALESCE(gt.label, gt.id), ' Load Cell Command')      AS Hardware, ABS(gt.loadCellCmdPin) AS pin FROM gasTanks gt)
   UNION
   (SELECT 'Pi' AS shield, CONCAT('Gas Tank ', COALESCE(gt.label, gt.id), ' Load Cell Response')      AS Hardware, ABS(gt.loadCellRspPin) AS pin FROM gasTanks gt);
-  
-CREATE OR REPLACE VIEW vwIoPins
+-- --------------------------------------------------------
+--
+-- Create View `vwIoPins`
+--
+CREATE OR REPLACE VIEW `vwIoPins`
 AS
 SELECT
 	io.shield,
-  io.pin,
-  io.displayPin,
+  	io.pin,
+  	io.displayPin,
 	io.name,
-  io.col,
-  io.row,
-  io.rgb,
+  	io.col,
+  	io.row,
+  	io.rgb,
 	io.notes,
-  io.pinSide,
-  GROUP_CONCAT(hard.Hardware ORDER BY hardware, ',') AS hardware
+  	io.pinSide,
+  	GROUP_CONCAT(hard.Hardware ORDER BY hardware, ',') AS hardware
 FROM ioPins io
 LEFT JOIN vwIoHardwarePins hard
 ON ((CONVERT(io.shield USING utf8) = hard.shield OR (LOWER(io.shield) != 'pi' AND hard.shield = '')) and io.pin = hard.pin)
 WHERE (io.shield = 'Pi' OR '1' = (SELECT DISTINCT '1' FROM vwIoHardwarePins WHERE shield = ''))
 GROUP BY shield, pin;
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `admin`
+--
+CREATE TABLE IF NOT EXISTS `admin` (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+--
+-- Dumping data for table `admin`
+--
+INSERT INTO admin (username, password)
+VALUES ('admin', MD5('admin'));
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `settings`
+--
+CREATE TABLE IF NOT EXISTS `settings` (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    value TEXT,
+    PRIMARY KEY (id),
+    UNIQUE KEY name_unique (name)
+);
+--
+-- Dumping data for table `settings`
+--
+INSERT INTO settings (name, value) VALUES
+('tap_count', '4'),
+('theme', 'default'),
+('show_abv', '1'),
+('show_ibu', '1'),
+('show_srm', '1'),
+('show_abv_image', '1'),
+('show_ibu_image', '1'),
+('show_srm_image', '1'),
+('background_image', 'img/background.jpg'),
+('logo_image', 'img/logo.png'),
+('display_style', 'classic'),
+('display_description', '1')
+ON DUPLICATE KEY UPDATE value = value;
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `taplist_layout`
+--
+CREATE TABLE IF NOT EXISTS taplist_layout (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    layout_name VARCHAR(255) NOT NULL,
+    is_default TINYINT(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (id),
+    UNIQUE KEY layout_name_unique (layout_name)
+);
+--
+-- Dumping data for table `taplist_layout`
+--
+INSERT INTO taplist_layout (layout_name, is_default)
+VALUES ('default', 1)
+ON DUPLICATE KEY UPDATE layout_name = layout_name;
+-- --------------------------------------------------------
+--
+-- Create Table structure for table `taplist_display_options`
+--
+CREATE TABLE IF NOT EXISTS taplist_display_options (
+    id INT(11) NOT NULL AUTO_INCREMENT,
+    option_name VARCHAR(255) NOT NULL,
+    option_value VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY option_name_unique (option_name)
+);
+--
+-- Dumping data for table `taplist_display_options`
+--
+INSERT INTO taplist_display_options (option_name, option_value) VALUES
+('show_logo', '1'),
+('show_brewery', '1'),
+('show_style', '1'),
+('show_description', '1'),
+('show_abv', '1'),
+('show_ibu', '1'),
+('show_srm', '1'),
+('show_abv_image', '1'),
+('show_ibu_image', '1'),
+('show_srm_image', '1')
+ON DUPLICATE KEY UPDATE option_value = option_value;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

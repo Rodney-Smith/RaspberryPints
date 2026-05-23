@@ -17,7 +17,6 @@
 	require_once __DIR__.'/admin/includes/managers/tempProbe_manager.php';
 	require_once __DIR__.'/admin/includes/managers/bottle_manager.php';
 	require_once __DIR__.'/admin/includes/managers/pour_manager.php';
-
 		
 	$plaatoPins = array(
 	    "style" => 'v64',
@@ -38,7 +37,7 @@
 	
 	if($db){
 		// Connect to the database
-		$mysqli = db();		
+		$mysqli = db();	
 		$config = getAllConfigs();
 		
 		$sql =  "SELECT * FROM vwGetActiveTaps";
@@ -88,7 +87,7 @@
     			            if($config[ConfigNames::UsePlaatoTemp])
     			            {
     			                $tempInfo["tempUnit"] = (strpos($plaatoValue,"C")?UnitsOfMeasure::TemperatureCelsius:UnitsOfMeasure::TemperatureFahrenheight);
-    			                $tempInfo["temp"] = substr($plaatoValue, 0, strpos($plaatoValue, '°'));
+    			                $tempInfo["temp"] = substr($plaatoValue, 0, strpos($plaatoValue, 'ï¿½'));
     			                $tempInfo["probe"] = $b['id'];
     			                $tempInfo["takenDate"] = date('Y-m-d H:i:s');
     			                array_push($plaatoTemps, $tempInfo);
@@ -104,7 +103,6 @@
 			}
 			$taps[$b['id']] = $beeritem;
 		}
-		
 		
 		$tapManager = new TapManager();
 		$numberOfTaps = $tapManager->getNumberOfTaps();
