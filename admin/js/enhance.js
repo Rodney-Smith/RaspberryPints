@@ -93,7 +93,7 @@ enhance.defaultTests = {
 	heightOverflow: function() {
 		var newDiv = doc.createElement('div');
 		newDiv.innerHTML = '<div style="height: 10px;"></div>';
-		newDiv.style.cssText = 'overflow: hidden; height: 0;';
+		newDiv.style.cssText = 'overflow-y: scroll; height: 0;';
 		body.appendChild(newDiv);
 		var divHeight = newDiv.offsetHeight;
 		body.removeChild(newDiv);
